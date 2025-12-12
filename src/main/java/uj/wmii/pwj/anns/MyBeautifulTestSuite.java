@@ -3,23 +3,36 @@ package uj.wmii.pwj.anns;
 public class MyBeautifulTestSuite {
 
     @MyTest
-    public void testSoemthing() {
-        System.out.println("I'm testing something!");
+    public void simpleTest() {
+        System.out.println("      ...executing simple logic...");
     }
 
-    @MyTest(params = {"a param", "b param", "c param. Long, long C param."})
-    public void testWithParam(String param) {
-        System.out.printf("I was invoked with parameter: %s\n", param);
+    @MyTest(scenarios = {
+            @TestCase(params = "1", expected = "2"),  // 1 + 1 = 2 (PASS)
+            @TestCase(params = "5", expected = "6"),  // 5 + 1 = 6 (PASS)
+            @TestCase(params = "10", expected = "99") // 10 + 1 != 99 (FAIL)
+    })
+    public int addOne(int number) {
+        return number + 1;
     }
 
-    public void notATest() {
-        System.out.println("I'm not a test.");
+
+    @MyTest(scenarios = {
+            @TestCase(params = "java", expected = "JAVA"),
+            @TestCase(params = "test", expected = "TEST")
+    })
+    public String toUpperCase(String input) {
+        return input.toUpperCase();
     }
+
 
     @MyTest
-    public void imFailue() {
-        System.out.println("I AM EVIL.");
-        throw new NullPointerException();
+    public void crashTest() {
+        throw new RuntimeException("Something went wrong inside the test!");
     }
 
+
+    public void notATest() {
+        System.out.println("I should not run.");
+    }
 }
